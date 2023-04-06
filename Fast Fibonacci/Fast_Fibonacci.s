@@ -10,10 +10,10 @@
 .global _start
 
 .section .data
-A: .quad 0, 1, 1
+Array: .quad 0, 1, 1
 
 request: .asciz "Enter a number: "
-request_len: .quad asking_len - asking_num
+request_len: .quad request_len - request
 
 error: .asciz "illegal input\n"
 error_len: .quad error_len - error
@@ -94,31 +94,31 @@ loop:
     ja end_loop             # if (i > n) jump to end_loop.
     
     movl %ecx, %edi
-    call calc_mod3          # mov i as a para to cala_mod3.
-    movq A(,%eax,8), %r8    # r8 = *(eax*8 + A) = A[i % 3].
+    call calc_mod3               # mov i as a para to cala_mod3.
+    movq Array(,%eax,8), %r8     # r8 = *(eax*8 + Array) = Array[i % 3].
 
-    leal -1(%ecx), %edi     # edi = i - 1.
-    call calc_mod3          # mov (i - 1) as a para to cala_mod3.
-    addq A(,%eax,8), %r8    # r8 += *(eax*8 + A) = A[(i - 1) % 3].
+    leal -1(%ecx), %edi          # edi = i - 1.
+    call calc_mod3               # mov (i - 1) as a para to cala_mod3.
+    addq Array(,%eax,8), %r8     # r8 += *(eax*8 + Array) = Array[(i - 1) % 3].
 
-    leal -2(%ecx), %edi     # edi = i - 2.
-    call calc_mod3          # mov (i - 2) as a para to cala_mod3.
-    addq A(,%eax,8), %r8    # r8 += *(eax*8 + A) = A[(i - 2) % 3].
+    leal -2(%ecx), %edi          # edi = i - 2.
+    call calc_mod3               # mov (i - 2) as a para to cala_mod3.
+    addq Array(,%eax,8), %r8     # r8 += *(eax*8 + Array) = Array[(i - 2) % 3].
 
     movl %ecx, %edi
     call calc_mod3
-    movq %r8, A(,%eax,8)    # A[i % 3] = r8.
+    movq %r8, Array(,%eax,8)     # Array[i % 3] = r8.
     
     inc %ecx
     jmp loop
 end_loop:
 
-    movl %esi, %edi         # mov n as a para to calc_mod3.
+    movl %esi, %edi              # mov n as a para to calc_mod3.
     call calc_mod3
-    movq A(,%eax,8), %rax   # rax = A[n % 3].
+    movq Array(,%eax,8), %rax    # rax = Array[n % 3].
 
     # Epilogue
-    leave                   # Equal to: movq %rbp, %rsp + popq %rbp
+    leave                        # Equal to: movq %rbp, %rsp + popq %rbp
     ret
 
 
