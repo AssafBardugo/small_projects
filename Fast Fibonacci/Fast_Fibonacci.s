@@ -5,17 +5,17 @@
  *
  *	The C code of this algorithm:
  **************************************************************
- *  unsigned long fastFib(unsigned int n){
+ *      unsigned long fastFib(unsigned int n){
  *
- *      unsigned long A[3] = {0,1,1};
+ *          unsigned long A[3] = {0,1,1};
  *
- *      for(unsigned int i = 3; i <= n; i++){
+ *          for(unsigned int i = 3; i <= n; i++){
  *
- *          A[i % 3] = A[(i - 1) % 3] + A[(i - 2) % 3];
- *      }
+ *               A[i % 3] = A[(i - 1) % 3] + A[(i - 2) % 3];
+ *          }
  *
- *      return A[n % 3];
- * }
+ *          return A[n % 3];
+ *     }
  **************************************************************
  */
  
