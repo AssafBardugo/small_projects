@@ -12,11 +12,11 @@
 .section .data
 Array: .quad 0, 1, 1
 
-request: .asciz "Enter a number: "
-request_len: .quad request_len - request
+Request: .asciz "Enter a number: "
+Request_len: .quad Request_len - Request
 
-error: .asciz "illegal input\n"
-error_len: .quad error_len - error
+Error: .asciz "illegal input\n"
+Error_len: .quad Error_len - Error
 
 
 .section .bss
@@ -33,8 +33,8 @@ _start:
     # write an asking for a number
     movq $1, %rax           # write NR
     movq $1, %rdi           # write to STDOUT
-    leaq request(%rip), %rsi     # buff to write
-    movq (request_len), %rdx     # size to write
+    leaq Request(%rip), %rsi     # buff to write
+    movq (Request_len), %rdx     # size to write
     syscall
 
     # read a number
@@ -66,8 +66,8 @@ _start:
 print_error:
     movq $1, %rax           # write NR
     movq $1, %rdi           # write to STDOUT
-    leaq error(%rip), %rsi
-    movq (error_len), %rdx
+    leaq Error(%rip), %rsi
+    movq (Error_len), %rdx
     syscall
 
 end:
