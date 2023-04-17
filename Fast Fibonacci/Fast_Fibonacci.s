@@ -3,8 +3,9 @@
  *	the Fibonacci sequence using Dynamic Programming. 
  *	Complexity: Time O(N), Memory O(1).
  *
+ *--------------------------------------------------------------
  *	The C code of this algorithm:
- **************************************************************
+ *
  *      unsigned long fastFib(unsigned int n){
  *
  *          unsigned long A[3] = {0,1,1};
@@ -16,7 +17,7 @@
  *
  *          return A[n % 3];
  *      }
- **************************************************************
+ *--------------------------------------------------------------
  */
  
 
