@@ -265,7 +265,7 @@ bool avl<T>::contains(const T& element) const {
 template <class T>
 int avl<T>::rank(const T& key) const {
     
-    if(contains(key) == false){
+    if(find(key) == nullptr){
         throw element_not_exist<T>(key, true);
     }
     
@@ -505,14 +505,14 @@ AVL::status avl<T>::insertAux(node<T>* iter, const T& element){
 template <class T>
 AVL::status avl<T>::removeLeaf(node<T>* iter, T leaf){
     
-    node<T>* to_delete = NULL;
+    node<T>* to_delete = nullptr;
     
     if(leaf < iter->key){
         switch(removeLeaf(iter->left, leaf)){
                 
             case AVL::REMOVE_HERE:
                 to_delete = iter->left;
-                iter->left = NULL;
+                iter->left = nullptr;
                 delete to_delete;
                 
             case AVL::WAS_HEIGHT_UPDATE:
@@ -530,7 +530,7 @@ AVL::status avl<T>::removeLeaf(node<T>* iter, T leaf){
                 
             case AVL::REMOVE_HERE:
                 to_delete = iter->right;
-                iter->right = NULL;
+                iter->right = nullptr;
                 delete to_delete;
                 
             case AVL::WAS_HEIGHT_UPDATE:
@@ -586,7 +586,7 @@ node<T>* avl<T>::find(const T& key) const {
         else
             iter = iter->right;
     }
-    return NULL;
+    return nullptr;
 }
 
 
