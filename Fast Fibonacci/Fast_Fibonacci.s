@@ -6,9 +6,9 @@
  *--------------------------------------------------------------
  *	The C code of this algorithm:
  *
- *      unsigned long fastFib(unsigned int n){
+ *      long fastFib(unsigned int n){
  *
- *          unsigned long A[3] = {0,1,1};
+ *          long A[3] = {0,1,1};
  *
  *          for(unsigned int i = 3; i <= n; i++){
  *
