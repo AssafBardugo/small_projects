@@ -6,7 +6,7 @@ template <class T>
 struct node {
     T key;
     int height;
-    int weight;
+    size_t weight;
     node* left;
     node* right;
 
@@ -17,7 +17,7 @@ struct node {
     node& operator=(const node&) = delete;
 
     void updateWeight();
-    int w_left();
+    size_t w_left();
 };
 
 
@@ -41,7 +41,7 @@ node<T>::~node(){
 template <class T>
 void node<T>::updateWeight(){
 
-    int w_left = 0, w_right = 0;
+    size_t w_left = 0, w_right = 0;
 
     if(left != nullptr) 
         w_left = left->weight;
@@ -53,7 +53,7 @@ void node<T>::updateWeight(){
 }
 
 template <class T>
-int node<T>::w_left(){
+size_t node<T>::w_left(){
 
     if(left == nullptr)
         return 0;
