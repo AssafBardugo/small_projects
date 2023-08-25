@@ -29,7 +29,7 @@ public:
     avl();
     explicit avl(const Comp& comp);
     avl(const avl& src);
-    // TODO: Move C'tor
+    // TODO: Add Move C'tor
 
     /* Build a Tree in O(size) if sorted gets true */
     explicit avl(std::vector<T> elements, bool sorted = false);
