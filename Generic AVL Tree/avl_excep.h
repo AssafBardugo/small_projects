@@ -2,11 +2,106 @@
 #define AVL_EXCEP_H_
 
 #include <exception>
-#include <cstdbool>
 #include "avl_node.h"
 
+enum KEY_ERROR{
+    NON_UNIQUE_KEY,
+    KEY_NOT_EXIST,
+    KEY_ALREADY_EXISTS
+};
 
 class avl_exceptions : public std::exception {};
+
+
+class tree_is_empty : public avl_exceptions {
+/*
+ Throw from:
+        select(), min(), max()
+
+ Can be thrown following a call to:
+        select(), min(), max()
+*/
+};
+
+
+template <class T>
+class avl_key_error : public avl_exceptions {
+    
+    const T& key;
+    KEY_ERROR error_type;
+
+public:
+    avl_key_error(const T& key, KEY_ERROR type)
+            : key(key), error_type(type){}
+
+    const char* what() const noexcept{
+
+        switch(error_type){
+
+        case NON_UNIQUE_KEY:
+            return "The vector/array contains a non-unique key, which is illegal in AVL.";
+        case KEY_NOT_EXIST:
+            return "The rank/remove method received an element that is not in the tree.";
+        case KEY_ALREADY_EXISTS:
+            return "The insert method received an element that is already in the tree.";
+        default:
+            return "";
+        }
+    }
+    
+    const T& getKey(){
+        return key;
+    }
+};
+
+
+template <class T>
+class non_unique_key : public avl_key_error<T> {
+/*
+ Throw from:
+        avl::SetFunctor::operator()
+
+ Can be thrown following a call to:
+        avl<T>& operator=(const avl& src);
+        avl(std::vector<T>& elements, bool sorted = false);
+        avl(std::vector<T>& elements, const Comp& comp, bool sorted = false);
+        avl(T* elements, size_t arr_size, bool sorted = false);
+        avl(T* elements, size_t arr_size, const Comp& comp, bool sorted = false);
+*/    
+public:
+    non_unique_key(const T& key) 
+            : avl_key_error<T>(key, NON_UNIQUE_KEY){}
+};
+
+
+template <class T>
+class key_not_exist : public avl_key_error<T> {
+/*
+ Throw from:
+        remove(), rank(), getRef()
+
+ Can be thrown following a call to:
+        remove(), rank(), getRef()
+*/
+public:
+    key_not_exist(const T& key)
+            : avl_key_error<T>(key, KEY_NOT_EXIST){}
+};
+
+
+template <typename T>
+class key_already_exists : public avl_key_error<T> {
+/*
+ Throw from:
+        insert()
+
+ Can be thrown following a call to:
+        insert()
+*/
+public:
+    key_already_exists(const T& key) 
+            : avl_key_error<T>(key, KEY_ALREADY_EXISTS){}
+};
 
 
 template <class T>
@@ -31,82 +126,6 @@ public:
             return "The tree is empty or the iterator was not initialized with begin().";
         
         return "The iterator is equal to end().";
-    }
-};
-
-
-
-template <class T>
-class non_unique_key : public avl_exceptions {
-/*
- Throw from:
-        setInorderVec(), setInorderArr()
-
- Can be thrown following a call to:
-        avl<T>& operator=(const avl& src);
-        avl(vector<T> elements, bool is_sorted);
-        avl(T* elem_arr, int size, bool is_sorted);
-*/
-    const T& key;
-    bool from_arr;
-    
-public:
-
-    non_unique_key(const T& key, bool is_arr = false) : key(key), from_arr(is_arr){}
-        
-    const char* what() const noexcept{
-        
-        if(!from_arr) return "The vector contains a non-unique key, which is illegal in AVL.";
-        
-        return "The array contains a non-unique key, which is illegal in AVL.";
-    }
-    
-    const T& getKey(){
-        return key;
-    }
-};
-
-
-
-class tree_is_empty : public avl_exceptions {
-/*
- Throw from:
-        select(), min(), max()
-
- Can be thrown following a call to:
-        select(), min(), max()
-*/
-};
-
-
-
-template <class T>
-class element_not_exist : public avl_exceptions {
-/*
- Throw from:
-        remove(), rank()
-
- Can be thrown following a call to:
-        remove(), rank()
-*/
-    const T& element;
-    bool rank_called;
-    
-public:
-
-    element_not_exist(const T& element, bool is_rank = false)
-            : element(element), rank_called(is_rank){}
-        
-    const char* what() const noexcept{
-             
-        if(!rank_called)
-            return "The remove() method received an element that is not in the tree.";
-        
-        return "The rank() method received an element that is not in the tree and therefore has no rank.";
-    }
-    
-    const T& getElement(){
-        return element;
     }
 };
 
