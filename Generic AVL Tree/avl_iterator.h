@@ -2,7 +2,6 @@
 #define AVL_ITERATOR_H_
 
 #include <stack>
-#include <cassert>
 #include "avl_node.h"
 #include "avl_excep.h"
 
@@ -38,12 +37,14 @@ public:
 
 
 template <class T>
-avl_iterator<T>::avl_iterator(node_ptr root) : current(nullptr), avl_root(root){
+avl_iterator<T>::avl_iterator(node_ptr root) 
+        : current(nullptr), avl_root(root){
 }
 
 
 template <class T>
-avl_iterator<T>& avl_iterator<T>::operator++(){
+avl_iterator<T>& 
+avl_iterator<T>::operator++(){
     
     if(current == nullptr)
         throw null_iterator<T>(avl_root);
@@ -74,7 +75,8 @@ avl_iterator<T>& avl_iterator<T>::operator++(){
 
 
 template <class T>
-avl_iterator<T> avl_iterator<T>::operator++(int){
+avl_iterator<T> 
+avl_iterator<T>::operator++(int){
     
     avl_iterator ret_val = *this;
     
@@ -85,7 +87,8 @@ avl_iterator<T> avl_iterator<T>::operator++(int){
 
 
 template <class T>
-const T& avl_iterator<T>::operator*() const{
+const T& 
+avl_iterator<T>::operator*() const{
     
     if(current == nullptr)
         throw null_iterator<T>(avl_root);
@@ -95,21 +98,24 @@ const T& avl_iterator<T>::operator*() const{
 
 
 template <class T>
-bool avl_iterator<T>::operator==(const avl_iterator& iter) const{
+bool 
+avl_iterator<T>::operator==(const avl_iterator& iter) const{
     
     return this->current == iter.current;
 }
 
 
 template <class T>
-bool avl_iterator<T>::operator!=(const avl_iterator& iter) const{
+bool 
+avl_iterator<T>::operator!=(const avl_iterator& iter) const{
     
     return !(*this == iter);
 }
 
 
 template <class T>
-void avl_iterator<T>::init_for_begin(){
+void 
+avl_iterator<T>::init_for_begin(){
     
     while(!path.empty())
         path.pop();
